@@ -8,7 +8,7 @@ namespace ConfigurePlants
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
-    internal class ConfigurePlants : BaseUnityPlugin
+    internal class ConfigurePlantsPlugin : BaseUnityPlugin
     {
         private const string PluginAuthor = "FixItFelix";
         private const string PluginName = "ConfigurePlants";
@@ -17,8 +17,21 @@ namespace ConfigurePlants
 
         private void Awake()
         {
-            Jotunn.Logger.LogInfo("ConfigurePlants has landed");
+            CommandManager.Instance.AddConsoleCommand(new PlantsPrintController());
         }
     }
-}
 
+    public class PlantsPrintController : ConsoleCommand
+    {
+        public override void Run(string[] args)
+        {
+            Jotunn.Logger.LogInfo($"PlantsPrintController called");
+            PlantsManager.WritePlants();
+        }
+
+        public override string Name => "configure_plants_print_defaults";
+
+        public override string Help =>
+            "Write all prefabs loaded in-game into a YAML translations template file inside the BepInEx config.";
+    }
+}
