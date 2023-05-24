@@ -14,36 +14,38 @@ namespace ConfigurePlants
 {
     public class PlantModel
     {
-        public PlantModel(Plant fromPlant)
+        [UsedImplicitly] public string Name;
+        [UsedImplicitly] public float GrowTime;
+        [UsedImplicitly] public float GrowRadius;
+        [UsedImplicitly] public float MinScale;
+        [UsedImplicitly] public float MaxScale;
+        [UsedImplicitly] public bool NeedCultivatedGround;
+        [UsedImplicitly] public bool DestroyIfCantGrow;
+
+        public static PlantModel FromPlant(Plant fromPlant)
         {
-            Name = fromPlant.m_name;
-            GrowTime = fromPlant.m_growTime;
-            GrowRadius = fromPlant.m_growRadius;
-            MinScale = fromPlant.m_minScale;
-            MaxScale = fromPlant.m_maxScale;
-            NeedCultivatedGround = fromPlant.m_needCultivatedGround;
-            DestroyIfCantGrow = fromPlant.m_destroyIfCantGrow;
+            return new PlantModel
+            {
+                Name = fromPlant.m_name,
+                GrowTime = fromPlant.m_growTime,
+                GrowRadius = fromPlant.m_growRadius,
+                MinScale = fromPlant.m_minScale,
+                MaxScale = fromPlant.m_maxScale,
+                NeedCultivatedGround = fromPlant.m_needCultivatedGround,
+                DestroyIfCantGrow = fromPlant.m_destroyIfCantGrow
+            };
         }
 
-        public PlantModel(string name, float growTime, float growRadius, float minScale, float maxScale,
-            bool needCultivatedGround, bool destroyIfCantGrow)
+        public void ReconfigurePlant(Plant plant)
         {
-            Name = name;
-            GrowTime = growTime;
-            GrowRadius = growRadius;
-            MinScale = minScale;
-            MaxScale = maxScale;
-            NeedCultivatedGround = needCultivatedGround;
-            DestroyIfCantGrow = destroyIfCantGrow;
+            plant.m_name = Name;
+            plant.m_growRadius = GrowRadius;
+            plant.m_growTime = GrowTime;
+            plant.m_minScale = MinScale;
+            plant.m_maxScale = MaxScale;
+            plant.m_needCultivatedGround = NeedCultivatedGround;
+            plant.m_destroyIfCantGrow = DestroyIfCantGrow;
         }
-
-        [UsedImplicitly] public readonly string Name;
-        [UsedImplicitly] public readonly float GrowTime;
-        [UsedImplicitly] public readonly float GrowRadius;
-        [UsedImplicitly] public readonly float MinScale;
-        [UsedImplicitly] public readonly float MaxScale;
-        [UsedImplicitly] public readonly bool NeedCultivatedGround;
-        [UsedImplicitly] public readonly bool DestroyIfCantGrow;
     }
 
     public static class PlantsManager
@@ -66,7 +68,7 @@ namespace ConfigurePlants
         private static Dictionary<string, PlantModel> LoadPlants()
         {
             return PrefabManager.Cache.GetPrefabs(typeof(Plant))
-                .ToDictionary(pair => pair.Key, pair => new PlantModel((Plant)pair.Value));
+                .ToDictionary(pair => pair.Key, pair => PlantModel.FromPlant((Plant)pair.Value));
         }
 
         public static void WritePlants()
@@ -107,16 +109,10 @@ namespace ConfigurePlants
                     return;
                 }
 
-                PlantModel configuredPlant = keyValuePair.Value;
-                plant.m_name = configuredPlant.Name;
-                plant.m_growRadius = configuredPlant.GrowRadius;
-                plant.m_growTime = configuredPlant.GrowTime;
-                plant.m_minScale = configuredPlant.MinScale;
-                plant.m_maxScale = configuredPlant.MaxScale;
-                plant.m_needCultivatedGround = configuredPlant.NeedCultivatedGround;
-                plant.m_destroyIfCantGrow = configuredPlant.DestroyIfCantGrow;
+                keyValuePair.Value.ReconfigurePlant(plant);
                 PrefabManager.Instance.DestroyPrefab(keyValuePair.Key);
                 PrefabManager.Instance.AddPrefab(plantObject);
+                PrefabManager.Instance.RegisterToZNetScene(plantObject);
             }
         }
 
@@ -129,7 +125,9 @@ namespace ConfigurePlants
             }
             catch (Exception e)
             {
-                Logger.LogWarning($"Unable to parse config file '{file}' due to {e.Message}");
+                Logger.LogWarning(
+                    $"Unable to parse config file '{file}' due to '{e.Message}' " +
+                    $"because of '{e.GetBaseException().Message}', \n{e.StackTrace}");
             }
 
             return new Dictionary<string, PlantModel>();
