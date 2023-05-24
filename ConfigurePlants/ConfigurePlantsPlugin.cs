@@ -17,7 +17,13 @@ namespace ConfigurePlants
 
         private void Awake()
         {
+            PrefabManager.OnPrefabsRegistered += ReplacePlants;
             CommandManager.Instance.AddConsoleCommand(new PlantsPrintController());
+        }
+        
+        private static void ReplacePlants() {
+            PlantsManager.RegisterPlantsFromCustomConfig();
+            PrefabManager.OnPrefabsRegistered -= ReplacePlants;
         }
     }
 
