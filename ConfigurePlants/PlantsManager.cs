@@ -110,9 +110,7 @@ namespace ConfigurePlants
                 }
 
                 keyValuePair.Value.ReconfigurePlant(plant);
-                PrefabManager.Instance.DestroyPrefab(keyValuePair.Key);
-                PrefabManager.Instance.AddPrefab(plantObject);
-                PrefabManager.Instance.RegisterToZNetScene(plantObject);
+                Logger.LogInfo($"reconfigured {keyValuePair.Key} successfully");
             }
         }
 

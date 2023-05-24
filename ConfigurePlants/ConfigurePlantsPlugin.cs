@@ -23,7 +23,7 @@ namespace ConfigurePlants
         
         private static void ReplacePlants() {
             PlantsManager.RegisterPlantsFromCustomConfig();
-            PrefabManager.OnPrefabsRegistered -= ReplacePlants;
+            //PrefabManager.OnPrefabsRegistered -= ReplacePlants;
         }
     }
 
