@@ -62,6 +62,7 @@ if($Target.Equals("Release")) {
     Write-Host "$PackagePath\$TargetAssembly"
     New-Item -Type Directory -Path "$PackagePath\plugins" -Force
     Copy-Item -Path "$TargetPath\$TargetAssembly" -Destination "$PackagePath\plugins\$TargetAssembly" -Force
+    Copy-Item -Path "$TargetPath\YamlDotNet.dll" -Destination "$PackagePath\plugins\YamlDotNet.dll" -Force
     Copy-Item -Path "$ProjectPath\README.md" -Destination "$PackagePath\README.md" -Force
     Copy-Item -Path "$ProjectPath\CHANGELOG.md" -Destination "$PackagePath\CHANGELOG.md" -Force
     Compress-Archive -Path "$PackagePath\*" -DestinationPath "$TargetPath\$TargetAssembly.zip" -Force
