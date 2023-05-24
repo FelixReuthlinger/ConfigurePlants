@@ -1,4 +1,4 @@
-﻿# Configure Plants
+# Configure Plants
 
 Ever wanted to change the most simple values on plants in Valheim? This is the mod you can easily use!
 
