@@ -4,12 +4,14 @@ Ever wanted to change the most simple values on plants in Valheim? This is the m
 
 ## Features
 
-This mod does not use any .cfg file to configure it. Instead it does provide:
+This mod does not use any .cfg file to configure it. Instead it does provide configuration via YAML files:
 
 1. Ability to simply write out the currently in-game loaded configuration of all Plants (following the `Plant` Valheim
    type).
 2. Ability to read 1 or many files that contain configuration values in the same model that can be written, it will then
    change the in-game values of the plants while loading into the world.
+
+YAML file contents are `ServerSync`ed.
 
 ### Supported config values for plants
 
