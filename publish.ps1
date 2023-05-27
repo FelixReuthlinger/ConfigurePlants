@@ -64,7 +64,7 @@ if($Target.Equals("Release")) {
     Copy-Item -Path "$TargetPath\$TargetAssembly" -Destination "$PackagePath\plugins\$TargetAssembly" -Force
     Copy-Item -Path "$ProjectPath\README.md" -Destination "$PackagePath\README.md" -Force
     Copy-Item -Path "$ProjectPath\CHANGELOG.md" -Destination "$PackagePath\CHANGELOG.md" -Force
-    Compress-Archive -Path "$PackagePath\*" -DestinationPath "$TargetPath\$TargetAssembly.zip" -Force
+    Compress-Archive -Path "$PackagePath\*" -DestinationPath "~\Downloads\$TargetAssembly.zip" -Force
 }
 
 # Pop Location
