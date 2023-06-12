@@ -1,10 +1,10 @@
 ﻿{
   "name": "ConfigurePlants",
   "description": "Simple mod to configure simple values of Plants, like grow time and grow radius.",
-  "version_number": "1.1.0",
+  "version_number": "1.1.1",
   "website_url": "https://github.com/FelixReuthlinger/ConfigurePlants",
   "dependencies": [
-    "ValheimModding-Jotunn-2.11.7",
+    "ValheimModding-Jotunn-2.12.0",
     "denikson-BepInExPack_Valheim-5.4.2105"
   ]
 }
