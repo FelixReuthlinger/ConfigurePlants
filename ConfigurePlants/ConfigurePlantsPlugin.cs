@@ -24,7 +24,7 @@ namespace ConfigurePlants
     {
         private const string PluginAuthor = "FixItFelix";
         private const string PluginName = "ConfigurePlants";
-        private const string PluginVersion = "1.1.1";
+        private const string PluginVersion = "1.1.3";
         public const string PluginGuid = PluginAuthor + "." + PluginName;
 
         private static readonly ConfigSync ConfigSync = new(PluginGuid) { CurrentVersion = PluginVersion };
